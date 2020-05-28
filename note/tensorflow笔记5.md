@@ -1,0 +1,210 @@
+# 第五章
+## 卷积神经网络
+
+### 1.全连接网络问题
+
+- 输入量较大时，隐藏层增加，待优化的参数过多，容易导致模型过拟合。
+- 为了减少待训练参数，对图像进行特征提取，再将提取到的特征输入全连接网络。
+
+![image-20200526114825840](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526114825840.png)
+
+### 2.卷积神经网络
+
+- 卷积可以认为是一种有效提取图像特征的方法。`利用立体卷积核实现参数的空间共享`
+
+- 一般会用一个正方形的 卷积核，按指定步长，在输入特征图上滑动，遍历输入特征图中的每个像素点。每一个步长，卷积核会与输入特征图出现重合区域，重合区域对应元素相乘、求和再加上偏置项得到输出特征的一个像素点。
+
+- **卷积核的通道数与输入特征图的通道数目一致**
+
+    输入特征图的深度（channel数）决定了当前层卷积核的深度 
+
+    当前层卷积核的个数，决定了当前层输出特征图的深度
+
+    - 几个卷积核就有几张输出特征图，向后叠加，如果感觉某层模型的特征提取能力不足，可以在这一层多用几个卷积核提高这层的特征提取能力
+
+    ![image-20200526121611376](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526121611376.png)
+
+    - 卷积核中每个颗粒有一个参数，每次反向传播，这些参数被梯度下降法更新
+
+- 计算例子
+
+    - 单通道输入特征
+
+        ![image-20200526124611549](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526124611549.png)
+
+    - 三通道输入特征
+
+        ![image-20200526124935529](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526124935529.png)
+
+#### 感受野
+
+- 感受野（Receptive Field）：卷积神经网络各输出特征图中的每个 像素点，在原始输入图片上映射区域的大小。
+
+    ![image-20200526161435326](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526161435326.png)
+
+
+#### 全零填充 Padding
+
+- 使卷积计算保持输入特征图的尺寸不变，在图周围填充零
+
+- TF中用参数padding = ‘SAME’ 或 padding = ‘VALID’表示
+
+    ![image-20200526162638188](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526162638188.png)
+
+    ![image-20200526162846582](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526162846582.png)
+
+#### TF描述卷积层
+
+```python
+tf.keras.layers.Conv2D (
+	filters = 卷积核个数,
+	kernel_size = 卷积核尺寸, #正方形写核长整数，或（核高h，核宽w）
+	strides = 滑动步长, #横纵向相同写步长整数，或(纵向步长h，横向步长w)，默认1
+	padding = “same” or “valid”, #使用全零填充是“same”，不使用是“valid”（默认）
+	activation = “ relu ” or “ sigmoid ” or “ tanh ” or “ softmax”等 , #如有BN Batch Normalization此处不写
+	input_shape = (高, 宽 , 通道数) #输入特征图维度，可省略
+)
+```
+
+#### 批标准化（Batch Normalization， BN）
+
+- 问题1：NN对0附近的数据更敏感，但是随着网络层数增加，特征数据会出现偏离0均值的情况
+
+解决：
+
+- 标准化：使数据符合0均值，1为标准差的分布。 
+
+- **批标准化**：对一小批数据（batch），做标准化处理。使数据回归标准正态分布，使输入数据的微小变化更明显的体现到激活函数的输出，提升了激活函数对输入数据的区分力。**常用与卷积操作和激活操作之间。BN层位于卷积层之后，激活层之前。**
+
+    ![image-20200526200759646](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526200759646.png)
+
+
+- 问题2：如下图，BN操作（图片上半部分）使输入数据完全满足标准正态分布（下图虚线），集中在激活函数的线性区域（BN操作后红线的区间），使激活函数丧失了非线性特性。
+
+解决：
+
+- 在BN操作中为每个卷积核引入了两个可训练参数
+
+    ![image-20200526204534094](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526204534094.png)
+
+- 缩放、偏移因子优化了特征数据的宽窄和偏移量，保证了网络的非线性表达力
+
+- **tf.keras.layers.BatchNormalization()**
+
+#### 池化 Pooling
+
+- 池化用于减少特征数据量
+
+    - **最大值池化**可提取图片纹理
+
+    - **均值池化**可保留背景特征
+
+        ![image-20200527111032238](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527111032238.png)
+
+- **tf.keras.layers.MaxPool2D**                      **tf.keras.layers.AveragePooling2D**
+
+```python
+tf.keras.layers.MaxPool2D(
+	pool_size=池化核尺寸，#正方形写核长整数，或（核高h，核宽w）
+	strides=池化步长，#步长整数， 或(纵向步长h，横向步长w)，默认为pool_size
+	padding=‘valid’or‘same’ #使用全零填充是“same”，不使用是“valid”（默认）
+)
+tf.keras.layers.AveragePooling2D(
+	pool_size=池化核尺寸，#正方形写核长整数，或（核高h，核宽w）
+	strides=池化步长，#步长整数， 或(纵向步长h，横向步长w)，默认为pool_size
+	padding=‘valid’or‘same’ #使用全零填充是“same”，不使用是“valid”（默认）
+)
+```
+
+#### 舍弃 Dropout
+
+- 为了缓解过拟合，在神经网络训练时，将一部分神经元按照一定概率从神经网络中暂时舍弃。神经网络使用时，被舍弃的神经元恢复链接。这样可以使模型泛化性更强，因为它不会太依赖某些局部的特征。
+
+    ![image-20200527113908681](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527113908681.png)
+
+- **tf.keras.layers.Dropout(舍弃的概率)**
+
+#### 卷积神经网络
+
+```python
+model = tf.keras.models.Sequential([
+	Conv2D(filters=6, kernel_size=(5, 5), padding='same'), # 卷积层
+	BatchNormalization(), # BN层
+	Activation('relu'), # 激活层
+	MaxPool2D(pool_size=(2, 2), strides=2, padding='same'), # 池化层
+	Dropout(0.2), # dropout层
+])
+```
+
+![image-20200527120635128](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527120635128.png)
+
+### 3.CNN搭建示例
+
+![image-20200527171741973](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527171741973.png)
+
+#### LeNet
+
+- （1998）卷积网络开篇之作。在统计CNN层数时，一般只统计全连接计算层和卷积（CBAPD）计算层
+
+- **借鉴点：**共享卷积核，减少网络参数。
+
+    ![image-20200527171653352](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527171653352.png)
+
+    ![image-20200527184515051](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527184515051.png)
+
+#### AlexNet
+
+- （2012）当年ImageNet竞赛的冠军，Top5错误率为16.4%
+- 使用relu和dropout
+
+![image-20200527191020952](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527191020952.png)
+
+#### VGGNet
+
+- （2014）当年ImageNet竞赛的亚军，Top5错误率减小到7.3%
+
+- 小尺寸卷积核，在减少参数的同时，提高了识别准确率
+
+- 网络结构规整，适合硬件加速
+
+- {CBA CBAPD} × 2 → {CBA CBA CBAPD} × 3 →三层全连接
+
+- 卷积核个数依次减少，因为越靠后特征图尺寸越小，通过增加卷积核可以增加特征图深度，保持信息承载能力
+
+    ![image-20200527202910522](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527202910522.png)
+
+#### InceptionNet
+
+- （2014）当年ImageNet竞赛冠军，Top5错误率为6.67%
+
+- InceptionNet中引入了Inception结构块，在同一层网络内使用不同尺寸的卷积核，提升了模型感知力
+
+- 使用了BN，缓解梯度消失
+
+- Filter Concatenation把收到的四路特征数据按深度方向拼接形成Inception结构快输出
+
+    ![image-20200527205059442](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527205059442.png)
+
+    ![image-20200527234400809](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527234400809.png)
+
+- 有10层
+
+#### ResNet
+
+- （2015）当年ImageNet竞赛冠军，Top5错误率为3.57%
+
+- ResNet提出了层间残差跳连，引入了前方信息，缓解梯度消失，使得神经网络层数增加成为可能
+
+- 先前：人们通过增加网络层数实现了更好的效果（下图上版部分）
+
+    ![image-20200528111859632](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528111859632.png)
+
+- 何凯明在cifar10数据集上做了实验，20层卷积网络比20层错误率高，他认为单纯堆叠神经网络会使神经网络模型退化，以至于后边特征对视了前边特征的原本模样（上图下半部）
+
+- 解决，用一根跳连线，使得H(x)包含了堆叠卷积的非线性输出F(x)和跳过两层堆叠卷积的直接连接过来的恒等映射x，让他们对用元素相加，有效缓解了模型堆叠导致的退化，使得NN可以向更深层级发展
+
+    ![image-20200528112413211](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528112413211.png)
+
+    ![image-20200528113251765](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528113251765.png)
+
+![image-20200528113615036](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528113615036.png)
