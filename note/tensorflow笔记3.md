@@ -35,7 +35,7 @@
 
 #### class MyModel(model)=MyModel
 
-- ![image-20200522224859719](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200522224859719.png)
+- ![image-20200522224859719](..\images\image-20200522224859719.png)
 
 #### model.compile(optimizer = 优化器,loss = 损失函数,metrics = [“准确率”])
 
@@ -88,5 +88,5 @@
 
 #### model.summary()
 
-![image-20200521221110603](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521221110603.png)
+![image-20200521221110603](..\images\image-20200521221110603.png)
 

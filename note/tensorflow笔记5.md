@@ -6,7 +6,7 @@
 - 输入量较大时，隐藏层增加，待优化的参数过多，容易导致模型过拟合。
 - 为了减少待训练参数，对图像进行特征提取，再将提取到的特征输入全连接网络。
 
-![image-20200526114825840](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526114825840.png)
+![image-20200526114825840](..\images\image-20200526114825840.png)
 
 ### 2.卷积神经网络
 
@@ -22,7 +22,7 @@
 
     - 几个卷积核就有几张输出特征图，向后叠加，如果感觉某层模型的特征提取能力不足，可以在这一层多用几个卷积核提高这层的特征提取能力
 
-    ![image-20200526121611376](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526121611376.png)
+    ![image-20200526121611376](..\images\image-20200526121611376.png)
 
     - 卷积核中每个颗粒有一个参数，每次反向传播，这些参数被梯度下降法更新
 
@@ -30,17 +30,17 @@
 
     - 单通道输入特征
 
-        ![image-20200526124611549](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526124611549.png)
+        ![image-20200526124611549](..\images\image-20200526124611549.png)
 
     - 三通道输入特征
 
-        ![image-20200526124935529](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526124935529.png)
+        ![image-20200526124935529](..\images\image-20200526124935529.png)
 
 #### 感受野
 
 - 感受野（Receptive Field）：卷积神经网络各输出特征图中的每个 像素点，在原始输入图片上映射区域的大小。
 
-    ![image-20200526161435326](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526161435326.png)
+    ![image-20200526161435326](..\images\image-20200526161435326.png)
 
 
 #### 全零填充 Padding
@@ -49,9 +49,9 @@
 
 - TF中用参数padding = ‘SAME’ 或 padding = ‘VALID’表示
 
-    ![image-20200526162638188](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526162638188.png)
+    ![image-20200526162638188](..\images\image-20200526162638188.png)
 
-    ![image-20200526162846582](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526162846582.png)
+    ![image-20200526162846582](..\images\image-20200526162846582.png)
 
 #### TF描述卷积层
 
@@ -76,7 +76,7 @@ tf.keras.layers.Conv2D (
 
 - **批标准化**：对一小批数据（batch），做标准化处理。使数据回归标准正态分布，使输入数据的微小变化更明显的体现到激活函数的输出，提升了激活函数对输入数据的区分力。**常用与卷积操作和激活操作之间。BN层位于卷积层之后，激活层之前。**
 
-    ![image-20200526200759646](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526200759646.png)
+    ![image-20200526200759646](..\images\image-20200526200759646.png)
 
 
 - 问题2：如下图，BN操作（图片上半部分）使输入数据完全满足标准正态分布（下图虚线），集中在激活函数的线性区域（BN操作后红线的区间），使激活函数丧失了非线性特性。
@@ -85,7 +85,7 @@ tf.keras.layers.Conv2D (
 
 - 在BN操作中为每个卷积核引入了两个可训练参数
 
-    ![image-20200526204534094](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526204534094.png)
+    ![image-20200526204534094](..\images\image-20200526204534094.png)
 
 - 缩放、偏移因子优化了特征数据的宽窄和偏移量，保证了网络的非线性表达力
 
@@ -99,7 +99,7 @@ tf.keras.layers.Conv2D (
 
     - **均值池化**可保留背景特征
 
-        ![image-20200527111032238](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527111032238.png)
+        ![image-20200527111032238](..\images\image-20200527111032238.png)
 
 - **tf.keras.layers.MaxPool2D**                      **tf.keras.layers.AveragePooling2D**
 
@@ -120,7 +120,7 @@ tf.keras.layers.AveragePooling2D(
 
 - 为了缓解过拟合，在神经网络训练时，将一部分神经元按照一定概率从神经网络中暂时舍弃。神经网络使用时，被舍弃的神经元恢复链接。这样可以使模型泛化性更强，因为它不会太依赖某些局部的特征。
 
-    ![image-20200527113908681](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527113908681.png)
+    ![image-20200527113908681](..\images\image-20200527113908681.png)
 
 - **tf.keras.layers.Dropout(舍弃的概率)**
 
@@ -136,11 +136,11 @@ model = tf.keras.models.Sequential([
 ])
 ```
 
-![image-20200527120635128](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527120635128.png)
+![image-20200527120635128](..\images\image-20200527120635128.png)
 
 ### 3.CNN搭建示例
 
-![image-20200527171741973](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527171741973.png)
+![image-20200527171741973](..\images\image-20200527171741973.png)
 
 #### LeNet
 
@@ -148,16 +148,16 @@ model = tf.keras.models.Sequential([
 
 - **借鉴点：**共享卷积核，减少网络参数。
 
-    ![image-20200527171653352](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527171653352.png)
+    ![image-20200527171653352](..\images\image-20200527171653352.png)
 
-    ![image-20200527184515051](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527184515051.png)
+    ![image-20200527184515051](..\images\image-20200527184515051.png)
 
 #### AlexNet
 
 - （2012）当年ImageNet竞赛的冠军，Top5错误率为16.4%
 - 使用relu和dropout
 
-![image-20200527191020952](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527191020952.png)
+![image-20200527191020952](..\images\image-20200527191020952.png)
 
 #### VGGNet
 
@@ -171,7 +171,7 @@ model = tf.keras.models.Sequential([
 
 - 卷积核个数依次减少，因为越靠后特征图尺寸越小，通过增加卷积核可以增加特征图深度，保持信息承载能力
 
-    ![image-20200527202910522](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527202910522.png)
+    ![image-20200527202910522](..\images\image-20200527202910522.png)
 
 #### InceptionNet
 
@@ -183,9 +183,9 @@ model = tf.keras.models.Sequential([
 
 - Filter Concatenation把收到的四路特征数据按深度方向拼接形成Inception结构快输出
 
-    ![image-20200527205059442](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527205059442.png)
+    ![image-20200527205059442](..\images\image-20200527205059442.png)
 
-    ![image-20200527234400809](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200527234400809.png)
+    ![image-20200527234400809](..\images\image-20200527234400809.png)
 
 - 有10层
 
@@ -197,14 +197,14 @@ model = tf.keras.models.Sequential([
 
 - 先前：人们通过增加网络层数实现了更好的效果（下图上版部分）
 
-    ![image-20200528111859632](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528111859632.png)
+    ![image-20200528111859632](..\images\image-20200528111859632.png)
 
 - 何凯明在cifar10数据集上做了实验，20层卷积网络比20层错误率高，他认为单纯堆叠神经网络会使神经网络模型退化，以至于后边特征对视了前边特征的原本模样（上图下半部）
 
 - 解决，用一根跳连线，使得H(x)包含了堆叠卷积的非线性输出F(x)和跳过两层堆叠卷积的直接连接过来的恒等映射x，让他们对用元素相加，有效缓解了模型堆叠导致的退化，使得NN可以向更深层级发展
 
-    ![image-20200528112413211](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528112413211.png)
+    ![image-20200528112413211](..\images\image-20200528112413211.png)
 
-    ![image-20200528113251765](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528113251765.png)
+    ![image-20200528113251765](..\images\image-20200528113251765.png)
 
-![image-20200528113615036](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200528113615036.png)
+![image-20200528113615036](..\images\image-20200528113615036.png)

@@ -97,7 +97,7 @@
 
     `对于二维张量,axis=0纵向操作，沿经度方向；axis=0，横向操作，沿纬度方向`
 
-    ![image-20200520164616311](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200520164616311.png)
+    ![image-20200520164616311](..\images\image-20200520164616311.png)
 
     -  **tf.reduce_mean (张量名,axis=操作轴)** 计算张量沿着指定维度的平均值 
     -  **tf.reduce_sum (张量名,axis=操作轴) **计算张量沿着指定维度的和
@@ -215,7 +215,7 @@
     #等价于tf.math.softmax
     ```
 
-    ![image-20200520172752770](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200520172752770.png)
+    ![image-20200520172752770](..\images\image-20200520172752770.png)
 
     ```python
     import tensorflow as tf
@@ -233,7 +233,7 @@
     The sum of y_pro: tf.Tensor(1.0, shape=(), dtype=float32)
     ```
 
-    ![image-20200520172638689](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200520172638689.png)
+    ![image-20200520172638689](..\images\image-20200520172638689.png)
 
 - **w.assign_sub (w要自减的内容)**   自检操作，调用assign_sub前，先用 tf.Variable 定义变量 w 为可训练（可自更新）。
 

@@ -28,11 +28,11 @@ def generateds(path, txt):
 
 
 
-![image-20200526090515552](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200526090515552.png)
+![image-20200526090515552](..\images\image-20200526090515552.png)
 
 ### 2.数据增强，扩充数据集
 
-![image-20200524214007052](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200524214007052.png)
+![image-20200524214007052](..\images\image-20200524214007052.png)
 
 ```python
 x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)  # 给数据增加一个维度,从(60000, 28, 28)reshape为(60000, 28, 28, 1)

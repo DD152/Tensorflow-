@@ -136,9 +136,9 @@
 
     
 
-![image-20200521091543440](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521091543440.png)
+![image-20200521091543440](..\images\image-20200521091543440.png)
 
-![image-20200521090919513](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521090919513.png)
+![image-20200521090919513](..\images\image-20200521090919513.png)
 
 ### 4.激活函数 
 
@@ -157,7 +157,7 @@
 
     - 激活函数输出为无限值时，参数的初始值对模型的影响大，建议调小学习率
 
-    ![image-20200521091735740](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521091735740.png)
+    ![image-20200521091735740](..\images\image-20200521091735740.png)
 
 - **tf.nn.sigmoid(x)** 归一化，现在用的少 `等价于tf.sigmoid`
 
@@ -171,31 +171,31 @@
 
     - 链式求导需要多层导数连续相乘 `多个0-0.25的值相乘`，结果趋于零，梯度消失 
 
-    ![image-20200521095702127](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521095702127.png)
+    ![image-20200521095702127](..\images\image-20200521095702127.png)
 
 - **tf.math.tanh(x)**  `等价于tf.tanh`
 
-    ![image-20200521101733006](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521101733006.png)
+    ![image-20200521101733006](..\images\image-20200521101733006.png)
 
 - **tf.nn.relu(x)**
 
     - Dead ReIU问题：送入激活函数的输入特征是负数时，激活函数的输出为零，反向传播得到的梯度为零，参数无法更新。`改进初始化，避免过多负数特征输入；设置更小lr，减少参数分布的变化，避免训练时产生负数特征进入relu函数`
 
-    ![image-20200521100359106](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521100359106.png)
+    ![image-20200521100359106](..\images\image-20200521100359106.png)
 
 - **tf.nn.leaky_relu(x)**
 
-    ![image-20200521101225521](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521101225521.png)
+    ![image-20200521101225521](..\images\image-20200521101225521.png)
 
 - 对于**初学者**
 
-    ![image-20200521101351880](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521101351880.png)
+    ![image-20200521101351880](..\images\image-20200521101351880.png)
 
 ### 5.损失函数
 
 - 损失函数（loss）：预测值（y）与已知答案（y_）的差距
 
-    ![image-20200521101846606](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521101846606.png)
+    ![image-20200521101846606](..\images\image-20200521101846606.png)
 
     - 均方误差 **loss_mse = tf.reduce_mean(tf.square(y_ \- y))**
 
@@ -205,17 +205,17 @@
 
         
 
-        ![image-20200521101924517](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521101924517.png)
+        ![image-20200521101924517](..\images\image-20200521101924517.png)
 
     - 自定义损失函数
 
-        ![image-20200521110636567](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521110636567.png)
+        ![image-20200521110636567](..\images\image-20200521110636567.png)
 
     - **tf.losses.categorical_crossentropy(y_,y)**
 
         交叉熵损失函数CE (Cross Entropy)：表征两个概率分布之间的距离
 
-        ![image-20200521111229785](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521111229785.png)
+        ![image-20200521111229785](..\images\image-20200521111229785.png)
     
         ```python
 tf.keras.losses.categorical_crossentropy(
@@ -245,7 +245,7 @@ tf.keras.losses.categorical_crossentropy(
 
 ### 6.欠拟合与过拟合
 
-![image-20200521112132435](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521112132435.png)
+![image-20200521112132435](..\images\image-20200521112132435.png)
 
 - 欠拟合 不能有效表征数据点
     - 解决办法
@@ -265,7 +265,7 @@ tf.keras.losses.categorical_crossentropy(
 
 - 正则化后loss变为
 
-    ![image-20200521113249853](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521113249853.png)
+    ![image-20200521113249853](..\images\image-20200521113249853.png)
 
 - 正则化选择
     1. **tf.nn.l1_loss(w)**L1正则化大概率会使很多参数变为零，因此该方法可通过稀疏参数，即减少参数的数量，降低复杂度。
@@ -275,7 +275,7 @@ tf.keras.losses.categorical_crossentropy(
 
 `在计算梯度后，用于优化梯度更新`
 
-![image-20200521173247909](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521173247909.png)
+![image-20200521173247909](..\images\image-20200521173247909.png)
 
 **不同的优化器实质上只是定义了不同的一阶动量和二阶动量公式**
 
@@ -283,9 +283,9 @@ tf.keras.losses.categorical_crossentropy(
 
 - 无momentum，常用
 
-![image-20200521173530124](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521173530124.png)
+![image-20200521173530124](..\images\image-20200521173530124.png)
 
-![image-20200521180250602](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521180250602.png)
+![image-20200521180250602](..\images\image-20200521180250602.png)
 
 #### SGDM
 
@@ -297,17 +297,17 @@ tf.keras.losses.categorical_crossentropy(
 
 - β是个超参数，接近1，经验值0.9
 
-![image-20200521174307307](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521174307307.png)
+![image-20200521174307307](..\images\image-20200521174307307.png)
 
-![image-20200521180325795](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521180325795.png)
+![image-20200521180325795](..\images\image-20200521180325795.png)
 
 #### Adagrad
 
 - 在SGD基础上增加二阶动量，可对模型中的每个参数分配自适应学习率
 
-![image-20200521175258455](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521175258455.png)
+![image-20200521175258455](..\images\image-20200521175258455.png)
 
-![image-20200521180347898](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521180347898.png)
+![image-20200521180347898](..\images\image-20200521180347898.png)
 
 #### RMSProp
 
@@ -315,17 +315,17 @@ tf.keras.losses.categorical_crossentropy(
 
 - v使用指数滑动平均值计算，表征过去一段时间的平均值
 
-![image-20200521181534715](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521181534715.png)
+![image-20200521181534715](..\images\image-20200521181534715.png)
 
-![image-20200521181518460](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521181518460.png)
+![image-20200521181518460](..\images\image-20200521181518460.png)
 
 #### Adam 
 
 - 同时结合SGDM一阶动量和RMSProp二阶动量并加入两个修正项目
 
-    ![image-20200521181952106](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521181952106.png)
+    ![image-20200521181952106](..\images\image-20200521181952106.png)
 
-    ![image-20200521182453860](C:\Users\DDan\AppData\Roaming\Typora\typora-user-images\image-20200521182453860.png)
+    ![image-20200521182453860](..\images\image-20200521182453860.png)
 
 
 ```
